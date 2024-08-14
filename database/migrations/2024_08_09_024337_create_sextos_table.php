@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('sextos', function (Blueprint $table) {
             $table->id();
+            $table->string('titulo');
+            $table->text('objetivo');
+            $table->text('habilidades');
+            $table->text('leitura_discussao');
+            $table->text('video_conteudo');
+            $table->text('video_exposicaop_conteudo');
+            $table->text('video_exposicaop_link');
+            $table->text('video_exposicaot_conteudo');
+            $table->text('video_exposicaot_link');
             $table->timestamps();
         });
     }

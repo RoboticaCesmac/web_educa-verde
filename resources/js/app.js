@@ -17,12 +17,18 @@ const app = createApp({});
 
 import ExampleComponent from './components/ExampleComponent.vue';
 import HomeComponent from './components/home/HomeComponent.vue';
+import InputComponent from './components/InputComponent.vue';
 import LoginComponent from './components/login/LoginComponent.vue';
+import ModalComponent from './components/ModalComponent.vue';
+import TabelaComponent from './components/TabelaComponent.vue';
 import SextoComponent from './components/turmas/sextoAno/SextoComponent.vue';
 app.component('example-component', ExampleComponent);
 app.component('home-component', HomeComponent);
 app.component('login-component', LoginComponent);
 app.component('sexto-component', SextoComponent);
+app.component('modal-component', ModalComponent);
+app.component('input-component', InputComponent);
+app.component('tabela-component', TabelaComponent);
 
 /**
  * The following block of code may be used to automatically register your

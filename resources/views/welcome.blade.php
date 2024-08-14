@@ -28,7 +28,6 @@
         .container {
             width: 400px;
             height: 450px;
-            border: 1px solid black;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -41,7 +40,6 @@
 
         .baixo {
             display: flex;
-            border: 1px solid black;
             width: 50%;
             justify-content: space-around;
 
@@ -65,7 +63,7 @@
 
     <div class="container">
         <div class="cima">
-            <h1>LOGO</h1>
+            <h1>Educa Verde</h1>
         </div>  
 
         <div class="baixo">
