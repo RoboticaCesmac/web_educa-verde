@@ -132,31 +132,32 @@ export default {
         },
 
         async atualizar() {
-            let params = new URLSearchParams();
-            params.append("_method", "patch");
-            params.append("titulo", this.form.titulo);
-            params.append("objetivo", this.form.objetivo);
-            params.append("habilidades", this.form.habilidades);
-            params.append("leitura_discussao", this.form.leitura_discussao);
-            params.append("video_conteudo", this.form.video_conteudo);
-            params.append("video_exposicaop_conteudo", this.form.video_exposicaop_conteudo);
-            params.append("video_exposicaop_link", this.form.video_exposicaop_link || null);
-            params.append("video_exposicaot_conteudo", this.form.video_exposicaot_conteudo);
-            params.append("video_exposicaot_link", this.form.video_exposicaot_link || null);
-            params.append("atividade", this.form.atividade);
+            let data = {
+                _method: "patch",
+                titulo: this.form.titulo,
+                objetivo: this.form.objetivo,
+                habilidades: this.form.habilidades,
+                leitura_discussao: this.form.leitura_discussao,
+                video_conteudo: this.form.video_conteudo,
+                video_exposicaop_conteudo: this.form.video_exposicaop_conteudo,
+                video_exposicaop_link: this.form.video_exposicaop_link || null,
+                video_exposicaot_conteudo: this.form.video_exposicaot_conteudo,
+                video_exposicaot_link: this.form.video_exposicaot_link || null,
+                atividade: this.form.atividade
+            };
 
             let config = {
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Content-Type": "application/json",
                     'Accept': "application/json",
                     'Authorization': this.token
                 },
             };
 
-            let url = this.urlBase + '/' + this.form.id
+            let url = this.urlBase + '/' + this.form.id;
 
             try {
-                await axios.post(url, params, config);
+                await axios.post(url, data, config);
 
                 this.cadastroStatus = "sucesso";
                 this.getSexto();

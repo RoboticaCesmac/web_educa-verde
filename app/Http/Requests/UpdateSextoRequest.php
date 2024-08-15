@@ -29,8 +29,8 @@ class UpdateSextoRequest extends FormRequest
             'video_conteudo' => 'required',
             'video_exposicaop_conteudo' => 'required',
             'video_exposicaot_conteudo' => 'required',
-            'video_exposicaop_link' => 'required',
-            'video_exposicaot_link' => 'required',
+            'video_exposicaop_link' => 'nullable',
+            'video_exposicaot_link' => 'nullable',
         ];
     }
 
