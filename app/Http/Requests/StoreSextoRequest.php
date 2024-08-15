@@ -28,9 +28,7 @@ class StoreSextoRequest extends FormRequest
             'leitura_discussao' => 'required',
             'video_conteudo' => 'required',
             'video_exposicaop_conteudo' => 'required',
-            'video_exposicaop_link' => 'required',
             'video_exposicaot_conteudo' => 'required',
-            'video_exposicaot_link' => 'required',
             'atividade' => 'required',
         ];
     }
@@ -41,9 +39,7 @@ class StoreSextoRequest extends FormRequest
             'leitura_discussao.required' => 'O campo de leitura e discussão deve ser preenchido!',
             'video_conteudo.required' => 'O campo do conteúdo dos vídeos deve ser preenchido!',
             'video_exposicaop_conteudo.required' => 'O campo do conteúdo do vídeo de exposição prático deveve ser preenchido!',
-            'video_exposicaop_link.required' => 'O campo com o link para o vídeo de exposição prático deve ser preenchido!',
             'video_exposicaot_conteudo.required' => 'O campo do conteúdo do vídeo de exposição teórico deveve ser preenchido!',
-            'video_exposicaot_link.required' => 'O campo com o link para o vídeo de exposição teórico deve ser preenchido!',
         ];
     }
 }

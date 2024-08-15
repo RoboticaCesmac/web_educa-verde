@@ -11,8 +11,11 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Styles -->
-    <style>
+    <style scoped>
         * {
             margin: 0;
             padding: 0;
@@ -21,70 +24,73 @@
             display: flex;
             width: 100%;
             height: 100vh;
-            background-color: white;
+            background-color: #f8f9fa;
             align-items: center;
             justify-content: center;
         }
-        .container {
+        .container-custom {
             width: 400px;
-            height: 450px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background-color: #ffffff; 
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); 
+            padding: 20px;
+            text-align: center;
         }
-
         .cima {
-            height: 50%
+            margin-bottom: 20px;
         }
-
+        h1 {
+            font-size: 28px;
+            color: #343a40; 
+        }
+        p {
+            font-size: 16px;
+            color: #6c757d; 
+        }
         .baixo {
             display: flex;
-            width: 50%;
             justify-content: space-around;
-
         }
-
         a {
             text-decoration: none;
-            color: black;
-            margin-right: 10px;
-            font-size: 26px;
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: 600;
+            background-color: #6c757d; 
+            border: 1px solid #6c757d;
+            border-radius: 4px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
         }
-
         a:hover {
-            transition: 0.7;
-            color: green
+            color: #ffffff; 
+            background-color: #495057; 
+            border-color: #495057;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
+    <div class="container-custom">
         <div class="cima">
             <h1>Educa Verde</h1>
+            <p>Bem vindo ao sistema administrativo do Educa Verde</p>
         </div>  
 
         <div class="baixo">
             @if (Route::has('login'))
                 @auth
-                <a
-                    href="{{ url('/home') }}"
-                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                <a href="{{ url('/home') }}" class="rounded-md">
                     Home
                 </a>
                 @else
-                <a
-                    href="{{ route('login') }}"
-                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                <a href="{{ route('login') }}" class="rounded-md">
                     Logar
                 </a>
         
                 @if (Route::has('register'))
-                <a
-                    href="{{ route('register') }}"
-                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                <a href="{{ route('register') }}" class="rounded-md">
                     Registrar
                 </a>
                 @endif
@@ -92,6 +98,11 @@
             @endif
         </div>
     </div> 
+
+    <!-- Bootstrap JS (Optional, for interactive components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 

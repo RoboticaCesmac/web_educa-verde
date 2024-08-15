@@ -15,12 +15,53 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <style scoped>
+        body {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+
+        .navbar {
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 600;
+            color: #black;
+        }
+
+        .nav-link {
+            font-size: 16px;
+            color: #black;
+        }
+
+        .dropdown-menu {
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .container-custom {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px; 
+        }
+
+        .main-content {
+            padding: 20px;
+            height: auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     Educa Verde
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -77,7 +118,11 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            <div class="container-custom">
+                <div class="main-content">
+                    @yield('content')
+                </div>
+            </div>
         </main>
     </div>
 </body>

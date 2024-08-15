@@ -38,7 +38,7 @@
                     <tr v-for="(item) in dados" :key="item.id">
                         <th scope="row">{{ item.id}}</th>
                         <td v-for="coluna in colunas" :key="coluna">{{ item[coluna] }}</td>
-                        <td>
+                        <td class="text-end">
                             <slot :item="item"/>
                         </td>
                     </tr>
@@ -59,6 +59,10 @@
 
 .topo p {
     font-size: 20px;
+}
+
+.text-end {
+    text-align: right;
 }
 
 .edit {

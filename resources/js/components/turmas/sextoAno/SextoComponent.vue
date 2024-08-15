@@ -74,8 +74,15 @@ export default {
         },
 
         async getSexto() {
+            let config = {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': this.token
+                }
+            }
+
             try {
-                let response = await axios.get(this.urlBase);
+                let response = await axios.get(this.urlBase, config);
                 this.sexto = response.data;
             } catch (error) {
                 return alert(
@@ -101,6 +108,7 @@ export default {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
                     "Accept": "application/json",
+                    'Authorization': this.token
                 }
             };
 
@@ -141,6 +149,7 @@ export default {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
                     'Accept': "application/json",
+                    'Authorization': this.token
                 },
             };
 
@@ -175,6 +184,7 @@ export default {
             let config = {
                 headers: {
                     Accept: "application/json",
+                    'Authorization': this.token
                 },
             };
 
@@ -237,6 +247,19 @@ export default {
             this.cadastroStatus = null;
             this.cadastroDetalhes = {};
         },
+    },
+
+    computed: {
+        token() {
+            let token = document.cookie.split(';').find(indice => {
+                return indice.includes('token=')
+            })
+
+            token = token.split('=')[1]
+            token = 'Bearer' + token
+
+            return token
+        },
     }
 }
 
@@ -270,8 +293,8 @@ export default {
                                 Editar
                             </button>
 
-                            <button data-bs-toggle="modal" data-bs-target="#modalRemover" class="btn btn-outline-danger"
-                                @click="handleSelectItem(item)">
+                            <button data-bs-toggle="modal" data-bs-target="#modalRemover"
+                                class="btn btn-outline-danger edit" @click="handleSelectItem(item)">
                                 Excluir
                             </button>
                         </template>
@@ -281,7 +304,8 @@ export default {
         </div>
 
         <!-- Modal Adicionar conteudo -->
-        <modal-component id="modalSexto" titulo="Cadastrar novo conteúdo" class="modal-xl" hidden.bs.modal="resetWizard">
+        <modal-component id="modalSexto" titulo="Cadastrar novo conteúdo" class="modal-xl"
+            hidden.bs.modal="resetWizard">
             <template v-slot:alertas>
                 <alert-component tipo="success" titulo="Cadastro realizado com sucesso!"
                     v-if="cadastroStatus == 'sucesso'" :detalhes="cadastroDetalhes"></alert-component>
@@ -290,7 +314,8 @@ export default {
             </template>
 
             <template v-slot:conteudo>
-                <form-wizard ref="formWizard" @on-complete="onCompleteCadastrar" color="#6C757D">
+                <form-wizard ref="formWizard" @on-complete="onCompleteCadastrar" color="#6C757D"
+                    next-button-text="Avançar" back-button-text="Voltar" finish-button-text="Final">
                     <tab-content title="Conteúdos">
                         <div class="form-group mb-3">
                             <input-component titulo="Título do conteúdo" id="novoTitulo" id-help="novoTituloHelp"
@@ -399,9 +424,11 @@ export default {
         </modal-component>
 
         <!-- Modal Visualizar conteudo -->
-        <modal-component id="modalVisualizar" titulo="Visualizar conteúdo" class="modal-xl" hidden.bs.modal="resetWizard">
+        <modal-component id="modalVisualizar" titulo="Visualizar conteúdo" class="modal-xl"
+            hidden.bs.modal="resetWizard">
             <template v-slot:conteudo>
-                <form-wizard ref="formWizardVisualizar" @on-complete="onCompleteVisualizar" color="#6C757D">
+                <form-wizard ref="formWizardVisualizar" @on-complete="onCompleteVisualizar" color="#6C757D"
+                    next-button-text="Avançar" back-button-text="Voltar" finish-button-text="Final">
                     <tab-content title="Conteúdos">
                         <div class="form-group mb-3">
                             <input-component titulo="Título do conteúdo">
@@ -483,7 +510,8 @@ export default {
             </template>
 
             <template v-slot:conteudo>
-                <form-wizard ref="formWizardAtualizar" @on-complete="onCompleteVisualizar" color="#6C757D">
+                <form-wizard ref="formWizardAtualizar" @on-complete="onCompleteVisualizar" color="#6C757D"
+                    next-button-text="Avançar" back-button-text="Voltar" finish-button-text="Final">
                     <tab-content title="Conteúdos">
                         <div class="form-group mb-3">
                             <input-component titulo="Título do conteúdo">
@@ -515,17 +543,17 @@ export default {
                     <tab-content title="Conteúdos das telas de vídeo">
                         <div class="form-group mb-3">
                             <input-component titulo="Vídeo conteúdo">
-                                <input type="text" class="form-control" v-model="form.video_conteudo" />
+                                <textarea type="text" class="form-control" v-model="form.video_conteudo" />
                             </input-component>
                         </div>
                         <div class="form-group mb-3">
                             <input-component titulo="Vídeo exposição teórica conteúdo">
-                                <input type="text" class="form-control" v-model="form.video_exposicaot_conteudo" />
+                                <textarea type="text" class="form-control" v-model="form.video_exposicaot_conteudo" />
                             </input-component>
                         </div>
                         <div class="form-group mb-3">
                             <input-component titulo="Vídeo exposição prática conteúdo">
-                                <input type="text" class="form-control" v-model="form.video_exposicaop_conteudo" />
+                                <textarea type="text" class="form-control" v-model="form.video_exposicaop_conteudo" />
                             </input-component>
                         </div>
                     </tab-content>
