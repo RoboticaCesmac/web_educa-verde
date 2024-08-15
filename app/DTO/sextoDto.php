@@ -13,6 +13,7 @@ class sextoDTO {
         public readonly string $video_exposicaop_link,
         public readonly string $video_exposicaot_conteudo,
         public readonly string $video_exposicaot_link,
+        public readonly string $atividade,
     ) {
 
     }
@@ -28,6 +29,7 @@ class sextoDTO {
             video_exposicaop_link: $data['video_exposicaop_link'],
             video_exposicaot_conteudo: $data['video_exposicaot_conteudo'],
             video_exposicaot_link: $data['video_exposicaot_link'],
+            atividade: $data['atividade'],
         );
 
         return $dto->toArray();
@@ -44,6 +46,7 @@ class sextoDTO {
             'video_exposicaop_link' => $this->video_exposicaop_link,
             'video_exposicaot_conteudo' => $this->video_exposicaot_conteudo,
             'video_exposicaot_link' => $this->video_exposicaot_link,
+            'atividade' => $this->atividade,
         ];
     }
 }

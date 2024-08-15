@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSextoRequest;
 use App\Http\Requests\UpdateSextoRequest;
 use App\Models\Sexto;
 use Exeption;
+use Illuminate\Support\Facades\Log;
 use App\Services\SextoService;
 use App\DTO\sextoDTO;
 

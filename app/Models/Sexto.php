@@ -19,5 +19,6 @@ class Sexto extends Model
         'video_exposicaop_link',
         'video_exposicaot_conteudo',
         'video_exposicaot_link',
+        'atividade',
     ];
 }

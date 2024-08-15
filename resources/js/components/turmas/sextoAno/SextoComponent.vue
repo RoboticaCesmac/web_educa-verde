@@ -1,11 +1,243 @@
 <script>
+import { FormWizard, TabContent } from 'vue3-form-wizard';
+import 'vue3-form-wizard/dist/style.css';
+import AlertComponent from '../../AlertComponent.vue';
 import InputComponent from '../../InputComponent.vue';
 import ModalComponent from '../../ModalComponent.vue';
 import TabelaComponent from "../../TabelaComponent.vue";
 
 export default {
     name: "SextoComponent",
-    components: { TabelaComponent, ModalComponent, InputComponent },
+    components: { TabelaComponent, ModalComponent, InputComponent, AlertComponent, FormWizard, TabContent },
+
+    data() {
+        return {
+            sexto: [],
+            colunas: ['titulo'],
+            urlBase: "http://localhost:8000/api/sexto",
+
+            tituloConteudo: "",
+            objetivoConteudo: "",
+            habilidadeConteudo: "",
+            leituraDiscussaoConteudo: "",
+            videoConteudo: "",
+            videoTeoricoConteudo: "",
+            videoTeoricoConteudoLink: "",
+            videoPraticoConteudo: "",
+            videoPraticoConteudoLink: "",
+            atividadeConteudo: "",
+
+            cadastroStatus: "",
+            cadastroDetalhes: "",
+
+            form: {
+                titulo: null,
+                objetivo: null,
+                habilidades: null,
+                leitura_discussao: null,
+                video_conteudo: null,
+                video_exposicaop_conteudo: null,
+                video_exposicaop_link: null,
+                video_exposicaot_conteudo: null,
+                video_exposicaot_link: null,
+                atividade: null
+            }
+        }
+    },
+
+    mounted() {
+        this.getSexto();
+
+        const modalSexto = document.getElementById('modalSexto');
+        const modalVisualizar = document.getElementById('modalVisualizar');
+        const modalAtualizar = document.getElementById('modalAtualizar');
+
+        if (modalSexto) {
+            modalSexto.addEventListener('hidden.bs.modal', this.resetWizard);
+        }
+        if (modalVisualizar) {
+            modalVisualizar.addEventListener('hidden.bs.modal', this.resetWizard);
+        }
+        if (modalAtualizar) {
+            modalAtualizar.addEventListener('hidden.bs.modal', this.resetWizard);
+        }
+
+    },
+
+    methods: {
+        onCompleteVisualizar() {
+            alert("Você chegou no final, pressione o botão inferior para fechar!");
+        },
+
+        onCompleteCadastrar() {
+            alert('Você chegou no final, pressione o botão "Salvar" para cadastrar!');
+        },
+
+        async getSexto() {
+            try {
+                let response = await axios.get(this.urlBase);
+                this.sexto = response.data;
+            } catch (error) {
+                return alert(
+                    "Erro fazer a busca! Atualize a página ou tente novamente mais tarde.",
+                );
+            }
+        },
+
+        async salvar() {
+            let params = new URLSearchParams();
+            params.append("titulo", this.tituloConteudo);
+            params.append("objetivo", this.objetivoConteudo);
+            params.append("habilidades", this.habilidadeConteudo);
+            params.append("leitura_discussao", this.leituraDiscussaoConteudo);
+            params.append("video_conteudo", this.videoConteudo);
+            params.append("video_exposicaop_conteudo", this.videoPraticoConteudo);
+            params.append("video_exposicaop_link", this.videoPraticoConteudoLink);
+            params.append("video_exposicaot_conteudo", this.videoTeoricoConteudo);
+            params.append("video_exposicaot_link", this.videoTeoricoConteudoLink);
+            params.append("atividade", this.atividadeConteudo);
+
+            let config = {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Accept": "application/json",
+                }
+            };
+
+            try {
+                let response = await axios.post(this.urlBase, params, config);
+
+                this.cadastroStatus = "sucesso";
+                this.cadastroDetalhes = {
+                    mensagem: "ID do registro: " + response.data.id
+                }
+
+                this.getSexto();
+                this.limparCamposAdd();
+            } catch (errors) {
+                this.cadastroStatus = "erro";
+                this.cadastroDetalhes = {
+                    mensagem: errors.response.data.message || "Erro desconhecido",
+                    listarErros: errors.response.data.errors || [],
+                }
+            };
+        },
+
+        async atualizar() {
+            let params = new URLSearchParams();
+            params.append("_method", "patch");
+            params.append("titulo", this.form.titulo);
+            params.append("objetivo", this.form.objetivo);
+            params.append("habilidades", this.form.habilidades);
+            params.append("leitura_discussao", this.form.leitura_discussao);
+            params.append("video_conteudo", this.form.video_conteudo);
+            params.append("video_exposicaop_conteudo", this.form.video_exposicaop_conteudo);
+            params.append("video_exposicaop_link", this.form.video_exposicaop_link);
+            params.append("video_exposicaot_conteudo", this.form.video_exposicaot_conteudo);
+            params.append("video_exposicaot_link", this.form.video_exposicaot_link);
+            params.append("atividade", this.form.atividade);
+
+            let config = {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    'Accept': "application/json",
+                },
+            };
+
+            let url = this.urlBase + '/' + this.form.id
+
+            try {
+                await axios.post(url, params, config);
+
+                this.cadastroStatus = "sucesso";
+                this.getSexto();
+            } catch (errors) {
+                this.cadastroStatus = "erro";
+                this.cadastroDetalhes = {
+                    mensagem: errors.response.data.message || "Erro desconhecido",
+                    listarErros: errors.response.data.errors || [],
+                };
+            }
+        },
+
+        async remover() {
+            let confirmacao = confirm(
+                "Tem certeza que deseja remover esse conteúdo?"
+            );
+
+            if (!confirmacao) {
+                return false;
+            }
+
+            let params = new URLSearchParams();
+            params.append("_method", "delete");
+
+            let config = {
+                headers: {
+                    Accept: "application/json",
+                },
+            };
+
+            let url = this.urlBase + "/" + this.form.id;
+
+            try {
+                await axios.post(url, params, config);
+
+                this.cadastroStatus = "sucesso";
+
+                this.getSexto();
+            } catch (errors) {
+                return alert("Erro ao remover conteúdo!");
+            }
+        },
+
+        limparCampos() {
+            this.tituloConteudo = "";
+            this.objetivoConteudo = "";
+            this.habilidadeConteudo = "";
+            this.leituraDiscussaoConteudo = "";
+            this.videoConteudo = "";
+            this.videoTeoricoConteudo = "";
+            this.videoTeoricoConteudoLink = "";
+            this.videoPraticoConteudo = "";
+            this.videoPraticoConteudoLink = "";
+            this.atividadeConteudo = "";
+            this.cadastroStatus = "";
+            this.cadastroDetalhes = {};
+        },
+
+        limparCamposAdd() {
+            this.tituloConteudo = "";
+            this.objetivoConteudo = "";
+            this.habilidadeConteudo = "";
+            this.leituraDiscussaoConteudo = "";
+            this.videoConteudo = "";
+            this.videoTeoricoConteudo = "";
+            this.videoTeoricoConteudoLink = "";
+            this.videoPraticoConteudo = "";
+            this.videoPraticoConteudoLink = "";
+            this.atividadeConteudo = "";
+        },
+
+        resetWizard() {
+            if (this.$refs.formWizard) {
+                this.$refs.formWizard.reset();
+            }
+            if (this.$refs.formWizardVisualizar) {
+                this.$refs.formWizardVisualizar.reset();
+            }
+            if (this.$refs.formWizardAtualizar) {
+                this.$refs.formWizardAtualizar.reset();
+            }
+        },
+
+        handleSelectItem(item) {
+            this.form = { ...item };
+
+            this.cadastroStatus = null;
+            this.cadastroDetalhes = {};
+        },
+    }
 }
 
 </script>
@@ -25,40 +257,134 @@ export default {
             </div>
             <div class="row">
                 <div class="col-12">
-                    <tabela-component></tabela-component>
+                    <tabela-component :descricao="'Sexto Ano'" :dados="sexto" :colunas="colunas">
+                        <template v-slot:default="{ item }">
+                            <button class="btn btn-outline-secondary edit" style="margin-right: 6px;"
+                                data-bs-toggle="modal" data-bs-target="#modalVisualizar"
+                                @click="handleSelectItem(item)">
+                                Visualizar
+                            </button>
+
+                            <button class="btn btn-outline-primary edit" style="margin-right: 6px;"
+                                data-bs-toggle="modal" data-bs-target="#modalAtualizar" @click="handleSelectItem(item)">
+                                Editar
+                            </button>
+
+                            <button data-bs-toggle="modal" data-bs-target="#modalRemover" class="btn btn-outline-danger"
+                                @click="handleSelectItem(item)">
+                                Excluir
+                            </button>
+                        </template>
+                    </tabela-component>
                 </div>
             </div>
         </div>
 
         <!-- Modal Adicionar conteudo -->
-        <modal-component id="modalSexto" titulo="Cadastrar novo conteúdo" class="modal-xl">
-            <template>
-
+        <modal-component id="modalSexto" titulo="Cadastrar novo conteúdo" class="modal-xl" hidden.bs.modal="resetWizard">
+            <template v-slot:alertas>
+                <alert-component tipo="success" titulo="Cadastro realizado com sucesso!"
+                    v-if="cadastroStatus == 'sucesso'" :detalhes="cadastroDetalhes"></alert-component>
+                <alert-component tipo="danger" titulo="Erro no cadastro!" :detalhes="cadastroDetalhes"
+                    v-if="cadastroStatus == 'erro'"></alert-component>
             </template>
 
             <template v-slot:conteudo>
-                <div class="row">
-                    <!-- Primeira coluna -->
-                    <div class="col-md-6">
+                <form-wizard ref="formWizard" @on-complete="onCompleteCadastrar" color="#6C757D">
+                    <tab-content title="Conteúdos">
                         <div class="form-group mb-3">
-                            <input-component titulo="Título" id="novoTitulo1" id-help="novoTituloHelp1"
-                                texto-ajuda="Informe o título!">
-                                <input type="text" class="form-control" id="novoTitulo1"
-                                    aria-describedby="novoTituloHelp1" placeholder="Título" />
+                            <input-component titulo="Título do conteúdo" id="novoTitulo" id-help="novoTituloHelp"
+                                texto-ajuda="Informe o titulo do conteúdo!">
+                                <input type="text" class="form-control" id="novoTitulo"
+                                    aria-describedby="novoTituloHelp" placeholder="Título" v-model="tituloConteudo" />
                             </input-component>
                         </div>
-                    </div>
-                    <!-- Segunda coluna -->
-                    <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <input-component titulo="Título" id="novoTitulo2" id-help="novoTituloHelp2"
-                                texto-ajuda="Informe o título!">
-                                <textarea class="form-control" id="novoTitulo2" aria-describedby="novoTituloHelp2"
-                                    placeholder="Título"></textarea>
+                            <input-component titulo="Objetivo do conteúdo" id="novoObjetivo" id-help="novoObjetivoHelp"
+                                texto-ajuda="Informe o objetivo do conteúdo!">
+                                <textarea type="text" class="form-control" id="novoObjetivo"
+                                    aria-describedby="novoObjetivoHelp" placeholder="Objetivo"
+                                    v-model="objetivoConteudo" />
                             </input-component>
                         </div>
-                    </div>
-                </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Habilidades do conteúdo" id="novoHabilidades"
+                                id-help="novoHabilidadesHelp" texto-ajuda="Informe as habilidades do conteúdo!">
+                                <textarea type="text" class="form-control" id="novoHabilidades"
+                                    aria-describedby="novoHabilidadesHelp" placeholder="Habilidades"
+                                    v-model="habilidadeConteudo" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Leitura e discussão do conteúdo" id="novoLeitura"
+                                id-help="novoLeituraHelp" texto-ajuda="Informe a Leitura e discussão do conteúdo!">
+                                <textarea type="text" class="form-control" id="novoLeitura"
+                                    aria-describedby="novoLeituraHelp" placeholder="Leitura e discussão"
+                                    v-model="leituraDiscussaoConteudo" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Atividade prática conteúdo" id="novoAtividadeConteudo"
+                                id-help="novoAtividadeConteudo" texto-ajuda="Informe a Atividade prática do conteúdo!">
+                                <textarea type="text" class="form-control" id="novoAtividadeConteudo"
+                                    aria-describedby="novoVideoConteudoTeoricoHelp" placeholder="Atividade prática"
+                                    v-model="atividadeConteudo" />
+                            </input-component>
+                        </div>
+                    </tab-content>
+
+                    <tab-content title="Conteúdos das telas de vídeo">
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo conteúdo" id="novoVideoConteudo"
+                                id-help="novoVideoConteudoHelp"
+                                texto-ajuda="Informe o conteúdo da página principal de vídeos!">
+                                <textarea type="text" class="form-control" id="novoVideoConteudo"
+                                    aria-describedby="novoVideoConteudoHelp" placeholder="Vídeo conteúdo"
+                                    v-model="videoConteudo" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição teórica conteúdo" id="novoVideoTeoricoConteudo"
+                                id-help="novoVideoTeoricoConteudo"
+                                texto-ajuda="Informe o conteúdo do vídeo de exposição teórica!">
+                                <textarea type="text" class="form-control" id="novoVideoTeoricoConteudo"
+                                    aria-describedby="novoVideoConteudoTeoricoHelp"
+                                    placeholder="Vídeo exposição teórica conteúdo" v-model="videoTeoricoConteudo" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição prática conteúdo" id="novoVideoPraticoConteudo"
+                                id-help="novoVideoPraticoConteudo"
+                                texto-ajuda="Informe o conteúdo do vídeo de exposição prática!">
+                                <textarea type="text" class="form-control" id="novoVideoPraticoConteudo"
+                                    aria-describedby="novoVideoConteudoTeoricoHelp"
+                                    placeholder="Vídeo exposição prática conteúdo" v-model="videoPraticoConteudo" />
+                            </input-component>
+                        </div>
+                    </tab-content>
+
+                    <tab-content title="Link dos vídeos">
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição prática link" id="novoVideoPraticoLink"
+                                id-help="novoVideoPraticoLink" texto-ajuda="Link do vídeo de exposição prática!">
+                                <input type="text" class="form-control" id="novoVideoPraticoLink"
+                                    aria-describedby="novoVideoConteudoTeoricoHelp"
+                                    placeholder="Link do vídeo de exposição prática"
+                                    v-model="videoPraticoConteudoLink" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição teórica link" id="novoVideoTeoricoConteudoLink"
+                                id-help="novoVideoTeoricoConteudoLink"
+                                texto-ajuda="Link do vídeo de exposição teórica!">
+                                <input type="text" class="form-control" id="novoVideoTeoricoConteudoLink"
+                                    aria-describedby="novoVideoConteudoTeoricoHelp"
+                                    placeholder="Link do vídeo de exposição teórica"
+                                    v-model="videoTeoricoConteudoLink" />
+                            </input-component>
+                        </div>
+                    </tab-content>
+                </form-wizard>
             </template>
 
 
@@ -68,6 +394,193 @@ export default {
                 </button>
                 <button type="button" class="btn btn-primary" @click="salvar">
                     Salvar
+                </button>
+            </template>
+        </modal-component>
+
+        <!-- Modal Visualizar conteudo -->
+        <modal-component id="modalVisualizar" titulo="Visualizar conteúdo" class="modal-xl" hidden.bs.modal="resetWizard">
+            <template v-slot:conteudo>
+                <form-wizard ref="formWizardVisualizar" @on-complete="onCompleteVisualizar" color="#6C757D">
+                    <tab-content title="Conteúdos">
+                        <div class="form-group mb-3">
+                            <input-component titulo="Título do conteúdo">
+                                <input type="text" class="form-control" :value="this.form.titulo" disabled />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Objetivo do conteúdo">
+                                <textarea type="text" class="form-control" :value="this.form.objetivo" disabled />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Habilidades do conteúdo">
+                                <textarea type="text" class="form-control" :value="this.form.habilidades" disabled />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Leitura e discussão do conteúdo">
+                                <textarea type="text" class="form-control" :value="this.form.leitura_discussao"
+                                    disabled />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Atividade prática do conteúdo">
+                                <textarea type="text" class="form-control" :value="this.form.atividade" disabled />
+                            </input-component>
+                        </div>
+                    </tab-content>
+                    <tab-content title="Conteúdos das telas de vídeo">
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo conteúdo">
+                                <textarea type="text" class="form-control" :value="this.form.video_conteudo" disabled />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição teórica conteúdo">
+                                <textarea type="text" class="form-control" :value="this.form.video_exposicaot_conteudo"
+                                    disabled />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição prática conteúdo">
+                                <textarea type="text" class="form-control" :value="this.form.video_exposicaop_conteudo"
+                                    disabled />
+                            </input-component>
+                        </div>
+                    </tab-content>
+                    <tab-content title="Link dos vídeos">
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição teórica link">
+                                <input type="text" class="form-control" :value="this.form.video_exposicaot_link"
+                                    disabled />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição prática link">
+                                <input type="text" class="form-control" :value="this.form.video_exposicaop_link"
+                                    disabled />
+                            </input-component>
+                        </div>
+                    </tab-content>
+                </form-wizard>
+            </template>
+
+            <template v-slot:rodape>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Fechar
+                </button>
+            </template>
+        </modal-component>
+
+        <!-- Modal Atualizar conteudo -->
+        <modal-component id="modalAtualizar" titulo="Atualizar conteúdo" class="modal-xl" hidden.bs.modal="resetWizard">
+            <template v-slot:alertas>
+                <alert-component tipo="success" titulo="Atualização realizada com sucesso!"
+                    v-if="cadastroStatus == 'sucesso'" :detalhes="cadastroDetalhes"></alert-component>
+                <alert-component tipo="danger" titulo="Erro no cadastro!" :detalhes="cadastroDetalhes"
+                    v-if="cadastroStatus == 'erro'"></alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <form-wizard ref="formWizardAtualizar" @on-complete="onCompleteVisualizar" color="#6C757D">
+                    <tab-content title="Conteúdos">
+                        <div class="form-group mb-3">
+                            <input-component titulo="Título do conteúdo">
+                                <input type="text" class="form-control" v-model="form.titulo" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Objetivo do conteúdo">
+                                <textarea type="text" class="form-control" v-model="form.objetivo" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Habilidades do conteúdo">
+                                <textarea type="text" class="form-control" v-model="form.habilidades" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Leitura e discussão do conteúdo">
+                                <textarea type="text" class="form-control" v-model="form.leitura_discussao" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Atividade prática do conteúdo">
+                                <textarea type="text" class="form-control" v-model="form.atividade" />
+                            </input-component>
+                        </div>
+                    </tab-content>
+
+                    <tab-content title="Conteúdos das telas de vídeo">
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo conteúdo">
+                                <input type="text" class="form-control" v-model="form.video_conteudo" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição teórica conteúdo">
+                                <input type="text" class="form-control" v-model="form.video_exposicaot_conteudo" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição prática conteúdo">
+                                <input type="text" class="form-control" v-model="form.video_exposicaop_conteudo" />
+                            </input-component>
+                        </div>
+                    </tab-content>
+
+                    <tab-content title="Link dos vídeos">
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição teórica link">
+                                <input type="text" class="form-control" v-model="form.video_exposicaot_link" />
+                            </input-component>
+                            <input-component titulo="Vídeo exposição prática link">
+                                <input type="text" class="form-control" v-model="form.video_exposicaop_link" />
+                            </input-component>
+                        </div>
+                    </tab-content>
+                </form-wizard>
+            </template>
+
+            <template v-slot:rodape>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Fechar
+                </button>
+                <button type="button" class="btn btn-primary" @click="atualizar">
+                    Salvar
+                </button>
+            </template>
+        </modal-component>
+
+        <!-- Modal Remover conteudo -->
+        <modal-component id="modalRemover" titulo="Remover conteúdo">
+            <template v-slot:alertas>
+                <alert-component tipo="success" titulo="Conteúdo removido com sucesso!"
+                    v-if="cadastroStatus == 'sucesso'" :detalhes="cadastroDetalhes"></alert-component>
+                <alert-component tipo="danger" titulo="Erro no cadastro!" :detalhes="cadastroDetalhes"
+                    v-if="cadastroStatus == 'erro'"></alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <div class="form-group mb-3">
+                    <input-component titulo="ID do cadastro">
+                        <input type="text" class="form-control" :value="this.form.id" disabled />
+                    </input-component>
+                </div>
+                <div class="form-group mb-3">
+                    <input-component titulo="Título do conteúdo">
+                        <input type="text" class="form-control" :value="this.form.titulo" disabled />
+                    </input-component>
+                </div>
+            </template>
+
+            <template v-slot:rodape>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Fechar
+                </button>
+                <button type="button" class="btn btn-danger" @click="remover">
+                    Remover
                 </button>
             </template>
         </modal-component>

@@ -15,6 +15,7 @@ import './bootstrap';
 
 const app = createApp({});
 
+import AlertComponent from './components/AlertComponent.vue';
 import ExampleComponent from './components/ExampleComponent.vue';
 import HomeComponent from './components/home/HomeComponent.vue';
 import InputComponent from './components/InputComponent.vue';
@@ -29,6 +30,7 @@ app.component('sexto-component', SextoComponent);
 app.component('modal-component', ModalComponent);
 app.component('input-component', InputComponent);
 app.component('tabela-component', TabelaComponent);
+app.component('alert-component', AlertComponent);
 
 /**
  * The following block of code may be used to automatically register your

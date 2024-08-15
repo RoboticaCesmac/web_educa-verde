@@ -1,46 +1,47 @@
 <script>
-export default {
-    name: 'TabelaComponent',
-    props: {
-        dados: Array,
-        colunas: Array,
-        descricao: String,
-        visualizar: String,
-        remover: String,
-        atualizar: String
-    },
-}
+    export default {
+        name: 'TabelaComponent',
+        props: {
+            dados: Array,
+            colunas: Array,
+            descricao: String,
+            visualizar: String,
+            remover: String,
+            atualizar: String
+        },
+
+        methods: {
+            setStore(item) {
+                this.$store.state.item = item
+            },
+        }
+    }
 </script>
 
 <template>
     <div class="tabela">
         <div class="topo">
-            <p><strong>Temas</strong></p>
+            <p><strong>{{ descricao }}</strong> <span class="badge text-bg-secondary">{{ dados.length }}</span></p>
             <hr>
         </div>
-
+        
         <div class="content">
-            <table class="table table-striped tabela">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Título</th>
+                        <th v-for="coluna in colunas" :key="coluna">{{ coluna }}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Exemplo</td>
+                    <tr v-for="(item) in dados" :key="item.id">
+                        <th scope="row">{{ item.id}}</th>
+                        <td v-for="coluna in colunas" :key="coluna">{{ item[coluna] }}</td>
+                        <td>
+                            <slot :item="item"/>
+                        </td>
                     </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Exemplo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Exemplo</td>
-                    </tr>
-
                 </tbody>
             </table>
         </div>

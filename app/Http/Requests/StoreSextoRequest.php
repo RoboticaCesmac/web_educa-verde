@@ -31,6 +31,7 @@ class StoreSextoRequest extends FormRequest
             'video_exposicaop_link' => 'required',
             'video_exposicaot_conteudo' => 'required',
             'video_exposicaot_link' => 'required',
+            'atividade' => 'required',
         ];
     }
 
