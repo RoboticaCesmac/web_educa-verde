@@ -19,9 +19,9 @@ return new class extends Migration
             $table->longtext('leitura_discussao');
             $table->longtext('video_conteudo');
             $table->longtext('video_exposicaop_conteudo');
-            $table->string('video_exposicaop_link');
+            $table->string('video_exposicaop_link')->nullable();
             $table->longtext('video_exposicaot_conteudo');
-            $table->string('video_exposicaot_link');
+            $table->string('video_exposicaot_link')->nullable();
             $table->string('atividade');
             $table->timestamps();
         });

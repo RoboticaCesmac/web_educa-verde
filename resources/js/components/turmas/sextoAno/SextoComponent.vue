@@ -28,7 +28,7 @@ export default {
             atividadeConteudo: "",
 
             cadastroStatus: "",
-            cadastroDetalhes: "",
+            cadastroDetalhes: {},
 
             form: {
                 titulo: null,
@@ -140,9 +140,9 @@ export default {
             params.append("leitura_discussao", this.form.leitura_discussao);
             params.append("video_conteudo", this.form.video_conteudo);
             params.append("video_exposicaop_conteudo", this.form.video_exposicaop_conteudo);
-            params.append("video_exposicaop_link", this.form.video_exposicaop_link);
+            params.append("video_exposicaop_link", this.form.video_exposicaop_link || null);
             params.append("video_exposicaot_conteudo", this.form.video_exposicaot_conteudo);
-            params.append("video_exposicaot_link", this.form.video_exposicaot_link);
+            params.append("video_exposicaot_link", this.form.video_exposicaot_link || null);
             params.append("atividade", this.form.atividade);
 
             let config = {

@@ -10,9 +10,9 @@ class sextoDTO {
         public readonly string $leitura_discussao,
         public readonly string $video_conteudo,
         public readonly string $video_exposicaop_conteudo,
-        public readonly string $video_exposicaop_link,
+        public readonly ?string $video_exposicaop_link,
         public readonly string $video_exposicaot_conteudo,
-        public readonly string $video_exposicaot_link,
+        public readonly ?string $video_exposicaot_link,
         public readonly string $atividade,
     ) {
 
@@ -26,9 +26,9 @@ class sextoDTO {
             leitura_discussao: $data['leitura_discussao'],
             video_conteudo: $data['video_conteudo'],
             video_exposicaop_conteudo: $data['video_exposicaop_conteudo'],
-            video_exposicaop_link: $data['video_exposicaop_link'],
+            video_exposicaop_link: $data['video_exposicaop_link'] ?? null,
             video_exposicaot_conteudo: $data['video_exposicaot_conteudo'],
-            video_exposicaot_link: $data['video_exposicaot_link'],
+            video_exposicaot_link: $data['video_exposicaot_link'] ?? null,
             atividade: $data['atividade'],
         );
 
