@@ -16,6 +16,7 @@ Route::group([
     Route::apiResource('/nono', 'App\Http\Controllers\NonoController');
     
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
+    Route::post('/refresh', 'App\Http\Controllers\AuthController@refresh');
 });
 
 Route::post('/login', 'App\Http\Controllers\AuthController@login');

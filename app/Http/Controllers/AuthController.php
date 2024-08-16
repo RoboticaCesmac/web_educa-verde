@@ -17,6 +17,11 @@ class AuthController extends Controller
         }
     }
 
+    public function refresh() {
+        $token = auth('api')->refresh();
+        return response()->json(['token' => $token]);
+    }
+
     public function logout() {
         auth('api')->logout();
         return response()->json(['msg' => 'Logout foi realizado com sucesso!']);
