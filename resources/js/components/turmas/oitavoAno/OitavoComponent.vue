@@ -7,14 +7,14 @@ import ModalComponent from '../../ModalComponent.vue';
 import TabelaComponent from "../../TabelaComponent.vue";
 
 export default {
-    name: "SextoComponent",
+    name: "OitavoComponent",
     components: { TabelaComponent, ModalComponent, InputComponent, AlertComponent, FormWizard, TabContent },
 
     data() {
         return {
-            sexto: [],
+            oitavo: [],
             colunas: ['titulo'],
-            urlBase: "http://localhost:8000/api/sexto",
+            urlBase: "http://localhost:8000/api/oitavo",
 
             tituloConteudo: "",
             objetivoConteudo: "",
@@ -46,14 +46,14 @@ export default {
     },
 
     mounted() {
-        this.getSexto();
+        this.getOitavo();
 
-        const modalSexto = document.getElementById('modalSexto');
+        const modalOitavo = document.getElementById('modalOitavo');
         const modalVisualizar = document.getElementById('modalVisualizar');
         const modalAtualizar = document.getElementById('modalAtualizar');
 
-        if (modalSexto) {
-            modalSexto.addEventListener('hidden.bs.modal', this.resetWizard);
+        if (modalOitavo) {
+            modalOitavo.addEventListener('hidden.bs.modal', this.resetWizard);
         }
         if (modalVisualizar) {
             modalVisualizar.addEventListener('hidden.bs.modal', this.resetWizard);
@@ -77,7 +77,7 @@ export default {
             alert('Você chegou no final, pressione o botão "Salvar" para atualizar!');
         },
 
-        async getSexto() {
+        async getOitavo() {
             let config = {
                 headers: {
                     'Accept': 'application/json',
@@ -87,7 +87,7 @@ export default {
 
             try {
                 let response = await axios.get(this.urlBase, config);
-                this.sexto = response.data;
+                this.oitavo = response.data;
             } catch (error) {
                 return alert(
                     "Erro fazer a busca! Atualize a página ou tente novamente mais tarde.",
@@ -124,7 +124,7 @@ export default {
                     mensagem: "ID do registro: " + response.data.id
                 }
 
-                this.getSexto();
+                this.getOitavo();
                 this.limparCamposAdd();
             } catch (errors) {
                 this.cadastroStatus = "erro";
@@ -164,7 +164,7 @@ export default {
                 await axios.post(url, data, config);
 
                 this.cadastroStatus = "sucesso";
-                this.getSexto();
+                this.getOitavo();
             } catch (errors) {
                 this.cadastroStatus = "erro";
                 this.cadastroDetalhes = {
@@ -200,7 +200,7 @@ export default {
 
                 this.cadastroStatus = "sucesso";
 
-                this.getSexto();
+                this.getOitavo();
             } catch (errors) {
                 return alert("Erro ao remover conteúdo!");
             }
@@ -267,25 +267,24 @@ export default {
         },
     }
 }
-
 </script>
 
 <template>
     <div class="container">
         <header class="titulo-pagina">
-            <h1>Sexto Ano</h1>
+            <h1>Oitavo Ano</h1>
         </header>
 
         <div class="mt-5 tabela">
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#modalSexto"
-                    @click.prevent="limparCampos">
+                <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal"
+                    data-bs-target="#modalOitavo" @click.prevent="limparCampos">
                     Adicionar
                 </button>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <tabela-component :descricao="'Sexto Ano'" :dados="sexto" :colunas="colunas">
+                    <tabela-component :descricao="'Oitavo Ano'" :dados="oitavo" :colunas="colunas">
                         <template v-slot:default="{ item }">
                             <button class="btn btn-outline-secondary edit" style="margin-right: 6px;"
                                 data-bs-toggle="modal" data-bs-target="#modalVisualizar"
@@ -308,8 +307,8 @@ export default {
             </div>
         </div>
 
-        <!-- Modal Adicionar conteudo -->
-        <modal-component id="modalSexto" titulo="Cadastrar novo conteúdo" class="modal-xl"
+        <!-- Modal Adicionar -->
+        <modal-component id="modalOitavo" titulo="Cadastrar novo conteúdo" class="modal-xl"
             hidden.bs.modal="resetWizard">
             <template v-slot:alertas>
                 <alert-component tipo="success" titulo="Cadastro realizado com sucesso!"
@@ -322,14 +321,14 @@ export default {
                 <form-wizard ref="formWizard" @on-complete="onCompleteCadastrar" color="#6C757D"
                     next-button-text="Avançar" back-button-text="Voltar" finish-button-text="Final">
                     <tab-content title="Conteúdos">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Título do conteúdo" id="novoTitulo" id-help="novoTituloHelp"
                                 texto-ajuda="Informe o titulo do conteúdo!">
                                 <input type="text" class="form-control" id="novoTitulo"
                                     aria-describedby="novoTituloHelp" placeholder="Título" v-model="tituloConteudo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Objetivo do conteúdo" id="novoObjetivo" id-help="novoObjetivoHelp"
                                 texto-ajuda="Informe o objetivo do conteúdo!">
                                 <textarea type="text" class="form-control" id="novoObjetivo"
@@ -337,7 +336,7 @@ export default {
                                     v-model="objetivoConteudo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Habilidades do conteúdo" id="novoHabilidades"
                                 id-help="novoHabilidadesHelp" texto-ajuda="Informe as habilidades do conteúdo!">
                                 <textarea type="text" class="form-control" id="novoHabilidades"
@@ -345,7 +344,7 @@ export default {
                                     v-model="habilidadeConteudo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Leitura e discussão do conteúdo" id="novoLeitura"
                                 id-help="novoLeituraHelp" texto-ajuda="Informe a Leitura e discussão do conteúdo!">
                                 <textarea type="text" class="form-control" id="novoLeitura"
@@ -353,7 +352,7 @@ export default {
                                     v-model="leituraDiscussaoConteudo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Atividade prática conteúdo" id="novoAtividadeConteudo"
                                 id-help="novoAtividadeConteudo" texto-ajuda="Informe a Atividade prática do conteúdo!">
                                 <textarea type="text" class="form-control" id="novoAtividadeConteudo"
@@ -364,7 +363,7 @@ export default {
                     </tab-content>
 
                     <tab-content title="Conteúdos das telas de vídeo">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo conteúdo" id="novoVideoConteudo"
                                 id-help="novoVideoConteudoHelp"
                                 texto-ajuda="Informe o conteúdo da página principal de vídeos!">
@@ -373,7 +372,7 @@ export default {
                                     v-model="videoConteudo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição teórica conteúdo" id="novoVideoTeoricoConteudo"
                                 id-help="novoVideoTeoricoConteudo"
                                 texto-ajuda="Informe o conteúdo do vídeo de exposição teórica!">
@@ -382,7 +381,7 @@ export default {
                                     placeholder="Vídeo exposição teórica conteúdo" v-model="videoTeoricoConteudo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição prática conteúdo" id="novoVideoPraticoConteudo"
                                 id-help="novoVideoPraticoConteudo"
                                 texto-ajuda="Informe o conteúdo do vídeo de exposição prática!">
@@ -394,7 +393,7 @@ export default {
                     </tab-content>
 
                     <tab-content title="Link dos vídeos">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição prática link" id="novoVideoPraticoLink"
                                 id-help="novoVideoPraticoLink" texto-ajuda="Link do vídeo de exposição prática!">
                                 <input type="text" class="form-control" id="novoVideoPraticoLink"
@@ -403,7 +402,7 @@ export default {
                                     v-model="videoPraticoConteudoLink" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição teórica link" id="novoVideoTeoricoConteudoLink"
                                 id-help="novoVideoTeoricoConteudoLink"
                                 texto-ajuda="Link do vídeo de exposição teórica!">
@@ -428,53 +427,53 @@ export default {
             </template>
         </modal-component>
 
-        <!-- Modal Visualizar conteudo -->
+        <!-- Modal Visualizar -->
         <modal-component id="modalVisualizar" titulo="Visualizar conteúdo" class="modal-xl"
             hidden.bs.modal="resetWizard">
             <template v-slot:conteudo>
                 <form-wizard ref="formWizardVisualizar" @on-complete="onCompleteVisualizar" color="#6C757D"
                     next-button-text="Avançar" back-button-text="Voltar" finish-button-text="Final">
                     <tab-content title="Conteúdos">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Título do conteúdo">
                                 <input type="text" class="form-control" :value="this.form.titulo" disabled />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Objetivo do conteúdo">
                                 <textarea type="text" class="form-control" :value="this.form.objetivo" disabled />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Habilidades do conteúdo">
                                 <textarea type="text" class="form-control" :value="this.form.habilidades" disabled />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Leitura e discussão do conteúdo">
                                 <textarea type="text" class="form-control" :value="this.form.leitura_discussao"
                                     disabled />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Atividade prática do conteúdo">
                                 <textarea type="text" class="form-control" :value="this.form.atividade" disabled />
                             </input-component>
                         </div>
                     </tab-content>
                     <tab-content title="Conteúdos das telas de vídeo">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo conteúdo">
                                 <textarea type="text" class="form-control" :value="this.form.video_conteudo" disabled />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição teórica conteúdo">
                                 <textarea type="text" class="form-control" :value="this.form.video_exposicaot_conteudo"
                                     disabled />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição prática conteúdo">
                                 <textarea type="text" class="form-control" :value="this.form.video_exposicaop_conteudo"
                                     disabled />
@@ -482,13 +481,13 @@ export default {
                         </div>
                     </tab-content>
                     <tab-content title="Link dos vídeos">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição teórica link">
                                 <input type="text" class="form-control" :value="this.form.video_exposicaot_link"
                                     disabled />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição prática link">
                                 <input type="text" class="form-control" :value="this.form.video_exposicaop_link"
                                     disabled />
@@ -505,7 +504,7 @@ export default {
             </template>
         </modal-component>
 
-        <!-- Modal Atualizar conteudo -->
+        <!-- Modal Atualizar -->
         <modal-component id="modalAtualizar" titulo="Atualizar conteúdo" class="modal-xl" hidden.bs.modal="resetWizard">
             <template v-slot:alertas>
                 <alert-component tipo="success" titulo="Atualização realizada com sucesso!"
@@ -518,27 +517,27 @@ export default {
                 <form-wizard ref="formWizardAtualizar" @on-complete="onCompleteAtualizar" color="#6C757D"
                     next-button-text="Avançar" back-button-text="Voltar" finish-button-text="Final">
                     <tab-content title="Conteúdos">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Título do conteúdo">
                                 <input type="text" class="form-control" v-model="form.titulo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Objetivo do conteúdo">
                                 <textarea type="text" class="form-control" v-model="form.objetivo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Habilidades do conteúdo">
                                 <textarea type="text" class="form-control" v-model="form.habilidades" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Leitura e discussão do conteúdo">
                                 <textarea type="text" class="form-control" v-model="form.leitura_discussao" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Atividade prática do conteúdo">
                                 <textarea type="text" class="form-control" v-model="form.atividade" />
                             </input-component>
@@ -546,17 +545,17 @@ export default {
                     </tab-content>
 
                     <tab-content title="Conteúdos das telas de vídeo">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo conteúdo">
                                 <textarea type="text" class="form-control" v-model="form.video_conteudo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição teórica conteúdo">
                                 <textarea type="text" class="form-control" v-model="form.video_exposicaot_conteudo" />
                             </input-component>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição prática conteúdo">
                                 <textarea type="text" class="form-control" v-model="form.video_exposicaop_conteudo" />
                             </input-component>
@@ -564,7 +563,7 @@ export default {
                     </tab-content>
 
                     <tab-content title="Link dos vídeos">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-4">
                             <input-component titulo="Vídeo exposição teórica link">
                                 <input type="text" class="form-control" v-model="form.video_exposicaot_link" />
                             </input-component>
@@ -586,7 +585,7 @@ export default {
             </template>
         </modal-component>
 
-        <!-- Modal Remover conteudo -->
+        <!-- Modal Remover -->
         <modal-component id="modalRemover" titulo="Remover conteúdo">
             <template v-slot:alertas>
                 <alert-component tipo="success" titulo="Conteúdo removido com sucesso!"
@@ -620,5 +619,4 @@ export default {
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

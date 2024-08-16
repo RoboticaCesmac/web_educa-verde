@@ -51,6 +51,7 @@
         .main-content {
             padding: 20px;
             height: auto;
+            min-height: 400px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
@@ -74,6 +75,15 @@
                         @auth 
                             <li class="nav-item">
                                 <a href="{{ route('sexto') }}" class="nav-link">Sexto</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('setimo') }}" class="nav-link">Sétimo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('oitavo') }}" class="nav-link">Oitavo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('nono') }}" class="nav-link">Nono</a>
                             </li>
                         @endauth
                     </ul>

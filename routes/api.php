@@ -11,6 +11,9 @@ Route::group([
     'middleware' => 'auth:api',
 ], function($router) {
     Route::apiResource('/sexto', 'App\Http\Controllers\SextoController');
+    Route::apiResource('/setimo', 'App\Http\Controllers\SetimoController');
+    Route::apiResource('/oitavo', 'App\Http\Controllers\OitavoController');
+    Route::apiResource('/nono', 'App\Http\Controllers\NonoController');
     
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
 });

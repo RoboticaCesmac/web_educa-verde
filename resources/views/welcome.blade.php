@@ -86,7 +86,7 @@
                 </a>
                 @else
                 <a href="{{ route('login') }}" class="rounded-md">
-                    Logar
+                    Entrar
                 </a>
         
                 @if (Route::has('register'))

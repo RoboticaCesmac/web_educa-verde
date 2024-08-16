@@ -7,14 +7,14 @@ import ModalComponent from '../../ModalComponent.vue';
 import TabelaComponent from "../../TabelaComponent.vue";
 
 export default {
-    name: "SextoComponent",
+    name: "NonoComponent",
     components: { TabelaComponent, ModalComponent, InputComponent, AlertComponent, FormWizard, TabContent },
 
     data() {
         return {
-            sexto: [],
+            nono: [],
             colunas: ['titulo'],
-            urlBase: "http://localhost:8000/api/sexto",
+            urlBase: "http://localhost:8000/api/nono",
 
             tituloConteudo: "",
             objetivoConteudo: "",
@@ -46,14 +46,14 @@ export default {
     },
 
     mounted() {
-        this.getSexto();
+        this.getNono();
 
-        const modalSexto = document.getElementById('modalSexto');
+        const modalNono = document.getElementById('modalNono');
         const modalVisualizar = document.getElementById('modalVisualizar');
         const modalAtualizar = document.getElementById('modalAtualizar');
 
-        if (modalSexto) {
-            modalSexto.addEventListener('hidden.bs.modal', this.resetWizard);
+        if (modalNono) {
+            modalNono.addEventListener('hidden.bs.modal', this.resetWizard);
         }
         if (modalVisualizar) {
             modalVisualizar.addEventListener('hidden.bs.modal', this.resetWizard);
@@ -77,7 +77,7 @@ export default {
             alert('Você chegou no final, pressione o botão "Salvar" para atualizar!');
         },
 
-        async getSexto() {
+        async getNono() {
             let config = {
                 headers: {
                     'Accept': 'application/json',
@@ -87,7 +87,7 @@ export default {
 
             try {
                 let response = await axios.get(this.urlBase, config);
-                this.sexto = response.data;
+                this.nono = response.data;
             } catch (error) {
                 return alert(
                     "Erro fazer a busca! Atualize a página ou tente novamente mais tarde.",
@@ -124,7 +124,7 @@ export default {
                     mensagem: "ID do registro: " + response.data.id
                 }
 
-                this.getSexto();
+                this.getNono();
                 this.limparCamposAdd();
             } catch (errors) {
                 this.cadastroStatus = "erro";
@@ -164,7 +164,7 @@ export default {
                 await axios.post(url, data, config);
 
                 this.cadastroStatus = "sucesso";
-                this.getSexto();
+                this.getNono();
             } catch (errors) {
                 this.cadastroStatus = "erro";
                 this.cadastroDetalhes = {
@@ -200,7 +200,7 @@ export default {
 
                 this.cadastroStatus = "sucesso";
 
-                this.getSexto();
+                this.getNono();
             } catch (errors) {
                 return alert("Erro ao remover conteúdo!");
             }
@@ -267,25 +267,24 @@ export default {
         },
     }
 }
-
 </script>
 
 <template>
     <div class="container">
         <header class="titulo-pagina">
-            <h1>Sexto Ano</h1>
+            <h1>Nono Ano</h1>
         </header>
 
         <div class="mt-5 tabela">
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#modalSexto"
+                <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#modalNono"
                     @click.prevent="limparCampos">
                     Adicionar
                 </button>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <tabela-component :descricao="'Sexto Ano'" :dados="sexto" :colunas="colunas">
+                    <tabela-component :descricao="'Nono Ano'" :dados="nono" :colunas="colunas">
                         <template v-slot:default="{ item }">
                             <button class="btn btn-outline-secondary edit" style="margin-right: 6px;"
                                 data-bs-toggle="modal" data-bs-target="#modalVisualizar"
@@ -308,9 +307,8 @@ export default {
             </div>
         </div>
 
-        <!-- Modal Adicionar conteudo -->
-        <modal-component id="modalSexto" titulo="Cadastrar novo conteúdo" class="modal-xl"
-            hidden.bs.modal="resetWizard">
+        <!-- Modal Adicionar -->
+        <modal-component id="modalNono" titulo="Cadastrar novo conteúdo" class="modal-xl" hidden.bs.modal="resetWizard">
             <template v-slot:alertas>
                 <alert-component tipo="success" titulo="Cadastro realizado com sucesso!"
                     v-if="cadastroStatus == 'sucesso'" :detalhes="cadastroDetalhes"></alert-component>
@@ -428,7 +426,7 @@ export default {
             </template>
         </modal-component>
 
-        <!-- Modal Visualizar conteudo -->
+        <!-- Modal Visualizar -->
         <modal-component id="modalVisualizar" titulo="Visualizar conteúdo" class="modal-xl"
             hidden.bs.modal="resetWizard">
             <template v-slot:conteudo>
@@ -505,7 +503,7 @@ export default {
             </template>
         </modal-component>
 
-        <!-- Modal Atualizar conteudo -->
+        <!-- Modal Atualizar -->
         <modal-component id="modalAtualizar" titulo="Atualizar conteúdo" class="modal-xl" hidden.bs.modal="resetWizard">
             <template v-slot:alertas>
                 <alert-component tipo="success" titulo="Atualização realizada com sucesso!"
@@ -586,7 +584,7 @@ export default {
             </template>
         </modal-component>
 
-        <!-- Modal Remover conteudo -->
+        <!-- Modal Remover -->
         <modal-component id="modalRemover" titulo="Remover conteúdo">
             <template v-slot:alertas>
                 <alert-component tipo="success" titulo="Conteúdo removido com sucesso!"
@@ -620,5 +618,4 @@ export default {
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

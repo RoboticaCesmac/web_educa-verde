@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sextos', function (Blueprint $table) {
+        Schema::create('oitavos', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
             $table->longtext('objetivo');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sextos');
+        Schema::dropIfExists('oitavos');
     }
 };
