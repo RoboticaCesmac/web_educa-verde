@@ -90,7 +90,7 @@ export default {
                 this.nono = response.data;
             } catch (error) {
                 return alert(
-                    "Erro fazer a busca! Atualize a página ou tente novamente mais tarde.",
+                    "Você não está autenticado. Faça o login novamente!",
                 );
             }
         },
@@ -129,7 +129,7 @@ export default {
             } catch (errors) {
                 this.cadastroStatus = "erro";
                 this.cadastroDetalhes = {
-                    mensagem: errors.response.data.message || "Erro desconhecido",
+                    mensagem: 'Campos não preenchidos corretamente: ' || "Erro desconhecido",
                     listarErros: errors.response.data.errors || [],
                 }
             };

@@ -13,4 +13,5 @@ return [
         'email' => 'endereço de email',
         'password' => 'senha',
     ],
+    'unauthenticated' => 'Você não está autenticado! Faça o login novamente.',
 ];
