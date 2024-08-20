@@ -45,6 +45,7 @@
         }
         p {
             font-size: 16px;
+            margin-top: 10px;
             color: #6c757d; 
         }
         .baixo {
@@ -74,7 +75,7 @@
 
     <div class="container-custom">
         <div class="cima">
-            <h1>Educa Verde</h1>
+            <img src="{{ asset('imgs/educaVerdeLogoPreto.png') }}" alt="">
             <p>Bem vindo ao sistema administrativo do Educa Verde</p>
         </div>  
 
