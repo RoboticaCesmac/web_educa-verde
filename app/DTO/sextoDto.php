@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class sextoDTO {
+class SextoDTO {
     public function __construct(
         public readonly string $titulo,
         public readonly string $objetivo,

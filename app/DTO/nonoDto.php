@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class nonoDTO {
+class NonoDTO {
     public function __construct(
         public readonly string $titulo,
         public readonly string $objetivo,

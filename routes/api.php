@@ -20,6 +20,7 @@ Route::group([
 });
 
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
+
 Route::get('/sexto', 'App\Http\Controllers\SextoController@index');
 Route::get('/setimo', 'App\Http\Controllers\SetimoController@index');
 Route::get('/oitavo', 'App\Http\Controllers\OitavoController@index');
