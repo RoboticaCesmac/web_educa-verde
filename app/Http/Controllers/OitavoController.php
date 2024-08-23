@@ -8,7 +8,7 @@ use App\Models\Oitavo;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Services\OitavoService;
-use App\DTO\oitavoDTO;
+use App\DTO\oitavoDto;
 
 class OitavoController extends Controller
 {

@@ -129,7 +129,7 @@ export default {
             } catch (errors) {
                 this.cadastroStatus = "erro";
                 this.cadastroDetalhes = {
-                    mensagem: 'Campos não preenchidos corretamente: ' || "Erro desconhecido",
+                    mensagem: errors.response.data.message || "Erro desconhecido",
                     listarErros: errors.response.data.errors || [],
                 }
             };

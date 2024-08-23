@@ -129,7 +129,7 @@ export default {
             } catch (errors) {
                 this.cadastroStatus = "erro";
                 this.cadastroDetalhes = {
-                    mensagem: 'Campos não preenchidos corretamente: ' || "Erro desconhecido",
+                    mensagem: errors.response.data.message|| "Erro desconhecido",
                     listarErros: errors.response.data.errors || [],
                 }
             };
@@ -395,9 +395,9 @@ export default {
 
                     <tab-content title="Link dos vídeos">
                         <div class="form-group mb-3">
-                            <input-component titulo="Vídeo exposição prática link" id="novoVideoPraticoLink"
+                            <input-component titulo="Vídeo exposição prática link" id="novoVideoPraticoConteudoLink"
                                 id-help="novoVideoPraticoLink" texto-ajuda="Link do vídeo de exposição prática!">
-                                <input type="text" class="form-control" id="novoVideoPraticoLink"
+                                <input type="text" class="form-control" id="novoVideoPraticoConteudoLink"
                                     aria-describedby="novoVideoConteudoTeoricoHelp"
                                     placeholder="Link do vídeo de exposição prática"
                                     v-model="videoPraticoConteudoLink" />
@@ -410,7 +410,7 @@ export default {
                                 <input type="text" class="form-control" id="novoVideoTeoricoConteudoLink"
                                     aria-describedby="novoVideoConteudoTeoricoHelp"
                                     placeholder="Link do vídeo de exposição teórica"
-                                    v-model="videoTeoricoConteudoLink" />
+                                    v-model="videoTeoricoConteudoLink"/>
                             </input-component>
                         </div>
                     </tab-content>
@@ -568,6 +568,8 @@ export default {
                             <input-component titulo="Vídeo exposição teórica link">
                                 <input type="text" class="form-control" v-model="form.video_exposicaot_link" />
                             </input-component>
+                        </div>
+                        <div class="form-group mb-3">
                             <input-component titulo="Vídeo exposição prática link">
                                 <input type="text" class="form-control" v-model="form.video_exposicaop_link" />
                             </input-component>

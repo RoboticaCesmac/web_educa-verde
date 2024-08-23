@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateNonoRequest;
 use App\Models\Nono;
 use Illuminate\Support\Facades\Log;
 use App\Services\NonoService;
-use App\DTO\nonoDTO;
+use App\DTO\nonoDto;
 use Exception;
 
 

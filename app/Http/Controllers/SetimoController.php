@@ -8,7 +8,7 @@ use App\Models\Setimo;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Services\SetimoService;
-use App\DTO\setimoDTO;
+use App\DTO\setimoDto;
 
 class SetimoController extends Controller
 {
