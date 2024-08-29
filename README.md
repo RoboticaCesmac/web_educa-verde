@@ -10,6 +10,7 @@ Para conseguir rodar a aplicação localmente teremos que ter algumas coisas ins
 ## Instalação
 
 - Git clone no projeto
+- Executar no terminar o comando: composer install.
 - Copiar o arquivo envExemple e criar um .env
 - Executar no terminal o comando: npm install jwt:secret
 - Executar no terminal o comando: npm install
