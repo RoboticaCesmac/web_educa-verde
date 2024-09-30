@@ -54,7 +54,7 @@
         },
         methods: {
             login(e) {
-                let url = "http://localhost:8000/api/login"
+                let url = import.meta.env.VITE_API_LOGIN_URL
                 let configuracao = {
                     method:'post',
                     body: new URLSearchParams({

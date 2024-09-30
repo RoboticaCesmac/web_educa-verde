@@ -14,7 +14,7 @@ export default {
         return {
             setimo: [],
             colunas: ['titulo'],
-            urlBase: "http://localhost:8000/api/setimo",
+            urlBase: import.meta.env.VITE_API_URL + "/" + "setimo",
 
             tituloConteudo: "",
             objetivoConteudo: "",
