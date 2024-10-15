@@ -1,4 +1,5 @@
 <script>
+import Swal from 'sweetalert2';
 import { FormWizard, TabContent } from 'vue3-form-wizard';
 import 'vue3-form-wizard/dist/style.css';
 import AlertComponent from '../../AlertComponent.vue';
@@ -65,16 +66,29 @@ export default {
     },
 
     methods: {
+        showAlert(mensagem) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Alerta',
+                text: mensagem,
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+        },
+
         onCompleteVisualizar() {
-            alert("Você chegou no final, pressione o botão inferior para fechar!");
+            this.showAlert("Você chegou no final, pressione o botão inferior para fechar!");
         },
 
         onCompleteCadastrar() {
-            alert('Você chegou no final, pressione o botão "Salvar" para cadastrar!');
+            this.showAlert('Você chegou no final, pressione o botão "Salvar" para cadastrar!');
         },
 
         onCompleteAtualizar() {
-            alert('Você chegou no final, pressione o botão "Salvar" para atualizar!');
+            this.showAlert('Você chegou no final, pressione o botão "Salvar" para atualizar!');
         },
 
         async getSetimo() {
@@ -89,7 +103,7 @@ export default {
                 let response = await axios.get(this.urlBase, config);
                 this.setimo = response.data;
             } catch (error) {
-                return alert(
+                return showAlert(
                     "Você não está autenticado. Faça o login novamente!",
                 );
             }
@@ -175,13 +189,19 @@ export default {
         },
 
         async remover() {
-            let confirmacao = confirm(
-                "Tem certeza que deseja remover esse conteúdo?"
-            );
+            const { isConfirmed } = await Swal.fire({
+                title: "Confirmação",
+                text: "Tem certeza que deseja remover esse conteúdo?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim",
+                cancelButtonText: "Não",
+                confirmButtonColor: "#0d6efd",  
+                cancelButtonColor: "#6d7d7d",
+                iconColor: "#dc3545",
+            });
 
-            if (!confirmacao) {
-                return false;
-            }
+            if (!isConfirmed) return;
 
             let params = new URLSearchParams();
             params.append("_method", "delete");
@@ -202,7 +222,7 @@ export default {
 
                 this.getSetimo();
             } catch (errors) {
-                return alert("Erro ao remover conteúdo!");
+                return showAlert("Erro ao remover conteúdo!");
             }
         },
 
@@ -482,14 +502,14 @@ export default {
                     </tab-content>
                     <tab-content title="Link dos vídeos">
                         <div class="form-group mb-3">
-                            <input-component titulo="Vídeo exposição teórica link">
-                                <input type="text" class="form-control" :value="this.form.video_exposicaot_link"
+                            <input-component titulo="Vídeo exposição prática link">
+                                <input type="text" class="form-control" :value="this.form.video_exposicaop_link"
                                     disabled />
                             </input-component>
                         </div>
                         <div class="form-group mb-3">
-                            <input-component titulo="Vídeo exposição prática link">
-                                <input type="text" class="form-control" :value="this.form.video_exposicaop_link"
+                            <input-component titulo="Vídeo exposição teórica link">
+                                <input type="text" class="form-control" :value="this.form.video_exposicaot_link"
                                     disabled />
                             </input-component>
                         </div>
@@ -564,11 +584,13 @@ export default {
 
                     <tab-content title="Link dos vídeos">
                         <div class="form-group mb-3">
-                            <input-component titulo="Vídeo exposição teórica link">
-                                <input type="text" class="form-control" v-model="form.video_exposicaot_link" />
-                            </input-component>
                             <input-component titulo="Vídeo exposição prática link">
                                 <input type="text" class="form-control" v-model="form.video_exposicaop_link" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição teórica link">
+                                <input type="text" class="form-control" v-model="form.video_exposicaot_link" />
                             </input-component>
                         </div>
                     </tab-content>

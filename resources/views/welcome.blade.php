@@ -12,7 +12,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('imgs/educaLogoPagina.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('imgs/Icon.png') }}" type="image/png">
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -60,7 +60,7 @@
             font-size: 18px;
             color: #ffffff;
             font-weight: 600;
-            background-color: #6c757d; 
+            background-color: #3b934f; 
             border: 1px solid #6c757d;
             border-radius: 4px;
             padding: 10px 20px;
@@ -68,8 +68,8 @@
         }
         a:hover {
             color: #ffffff; 
-            background-color: #495057; 
-            border-color: #495057;
+            background-color: #5baf6e;
+            border-color: #5baf6e;
         }
     </style>
 </head>
@@ -78,7 +78,7 @@
 
     <div class="container-custom">
         <div class="cima">
-            <img src="{{ asset('imgs/educaVerdeLogoPreto.png') }}" alt="">
+            <img src="{{ asset('imgs/Logo.png') }}" alt="">
             <p>Bem vindo ao sistema administrativo do Educa Verde</p>
         </div>  
 

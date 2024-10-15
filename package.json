@@ -16,6 +16,7 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "sweetalert2": "^11.14.2",
         "vue3-form-wizard": "^0.2.4"
     }
 }

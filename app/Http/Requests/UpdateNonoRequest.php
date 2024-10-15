@@ -29,8 +29,8 @@ class UpdateNonoRequest extends FormRequest
             'video_conteudo' => 'required',
             'video_exposicaop_conteudo' => 'required',
             'video_exposicaot_conteudo' => 'required',
-            'video_exposicaop_link' => 'nullable',
-            'video_exposicaot_link' => 'nullable',
+            'video_exposicaop_link' => 'nullable|url',
+            'video_exposicaot_link' => 'nullable|url',
             'atividade' => 'required',
         ];
     }
@@ -42,6 +42,8 @@ class UpdateNonoRequest extends FormRequest
             'video_conteudo.required' => 'O campo do conteúdo dos vídeos deve ser preenchido!',
             'video_exposicaop_conteudo.required' => 'O campo do conteúdo do vídeo de exposição prático deveve ser preenchido!',
             'video_exposicaot_conteudo.required' => 'O campo do conteúdo do vídeo de exposição teórico deveve ser preenchido!',
+            'video_exposicaop_link.url' => 'O campo do link do vídeo de exposição prática deve ser um link válido!',
+            'video_exposicaot_link.url' => 'O campo do link do vídeo de exposição teórica deve ser um link válido!',
         ];
     }
 }

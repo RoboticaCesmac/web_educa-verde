@@ -1,4 +1,5 @@
 <script>
+import Swal from 'sweetalert2';
 import { FormWizard, TabContent } from 'vue3-form-wizard';
 import 'vue3-form-wizard/dist/style.css';
 import AlertComponent from '../../AlertComponent.vue';
@@ -61,20 +62,32 @@ export default {
         if (modalAtualizar) {
             modalAtualizar.addEventListener('hidden.bs.modal', this.resetWizard);
         }
-
     },
 
     methods: {
+        showAlert(mensagem) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Alerta',
+                text: mensagem,
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+        },
+
         onCompleteVisualizar() {
-            alert("Você chegou no final, pressione o botão inferior para fechar!");
+            this.showAlert("Você chegou no final, pressione o botão inferior para fechar!");
         },
 
         onCompleteCadastrar() {
-            alert('Você chegou no final, pressione o botão "Salvar" para cadastrar!');
+            this.showAlert('Você chegou no final, pressione o botão "Salvar" para cadastrar!');
         },
 
         onCompleteAtualizar() {
-            alert('Você chegou no final, pressione o botão "Salvar" para atualizar!');
+            this.showAlert('Você chegou no final, pressione o botão "Salvar" para atualizar!');
         },
 
         async getNono() {
@@ -89,9 +102,7 @@ export default {
                 let response = await axios.get(this.urlBase, config);
                 this.nono = response.data;
             } catch (error) {
-                return alert(
-                    "Você não está autenticado. Faça o login novamente!",
-                );
+                this.showAlert("Você não está autenticado. Faça o login novamente!");
             }
         },
 
@@ -118,11 +129,10 @@ export default {
 
             try {
                 let response = await axios.post(this.urlBase, params, config);
-
                 this.cadastroStatus = "sucesso";
                 this.cadastroDetalhes = {
                     mensagem: "ID do registro: " + response.data.id
-                }
+                };
 
                 this.getNono();
                 this.limparCamposAdd();
@@ -131,8 +141,8 @@ export default {
                 this.cadastroDetalhes = {
                     mensagem: errors.response.data.message || "Erro desconhecido",
                     listarErros: errors.response.data.errors || [],
-                }
-            };
+                };
+            }
         },
 
         async atualizar() {
@@ -162,7 +172,6 @@ export default {
 
             try {
                 await axios.post(url, data, config);
-
                 this.cadastroStatus = "sucesso";
                 this.getNono();
             } catch (errors) {
@@ -175,13 +184,19 @@ export default {
         },
 
         async remover() {
-            let confirmacao = confirm(
-                "Tem certeza que deseja remover esse conteúdo?"
-            );
+            const { isConfirmed } = await Swal.fire({
+                title: "Confirmação",
+                text: "Tem certeza que deseja remover esse conteúdo?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim",
+                cancelButtonText: "Não",
+                confirmButtonColor: "#0d6efd",  
+                cancelButtonColor: "#6d7d7d",
+                iconColor: "#dc3545",
+            });
 
-            if (!confirmacao) {
-                return false;
-            }
+            if (!isConfirmed) return;
 
             let params = new URLSearchParams();
             params.append("_method", "delete");
@@ -197,12 +212,10 @@ export default {
 
             try {
                 await axios.post(url, params, config);
-
                 this.cadastroStatus = "sucesso";
-
                 this.getNono();
             } catch (errors) {
-                return alert("Erro ao remover conteúdo!");
+                this.showAlert("Erro ao remover conteúdo!");
             }
         },
 
@@ -248,7 +261,6 @@ export default {
 
         handleSelectItem(item) {
             this.form = { ...item };
-
             this.cadastroStatus = null;
             this.cadastroDetalhes = {};
         },
@@ -258,16 +270,17 @@ export default {
         token() {
             let token = document.cookie.split(';').find(indice => {
                 return indice.includes('token=')
-            })
+            });
 
-            token = token.split('=')[1]
-            token = 'Bearer' + token
+            token = token.split('=')[1];
+            token = 'Bearer' + token;
 
-            return token
+            return token;
         },
     }
 }
 </script>
+
 
 <template>
     <div class="container">
@@ -481,14 +494,14 @@ export default {
                     </tab-content>
                     <tab-content title="Link dos vídeos">
                         <div class="form-group mb-3">
-                            <input-component titulo="Vídeo exposição teórica link">
-                                <input type="text" class="form-control" :value="this.form.video_exposicaot_link"
+                            <input-component titulo="Vídeo exposição prática link">
+                                <input type="text" class="form-control" :value="this.form.video_exposicaop_link"
                                     disabled />
                             </input-component>
                         </div>
                         <div class="form-group mb-3">
-                            <input-component titulo="Vídeo exposição prática link">
-                                <input type="text" class="form-control" :value="this.form.video_exposicaop_link"
+                            <input-component titulo="Vídeo exposição teórica link">
+                                <input type="text" class="form-control" :value="this.form.video_exposicaot_link"
                                     disabled />
                             </input-component>
                         </div>
@@ -563,11 +576,13 @@ export default {
 
                     <tab-content title="Link dos vídeos">
                         <div class="form-group mb-3">
-                            <input-component titulo="Vídeo exposição teórica link">
-                                <input type="text" class="form-control" v-model="form.video_exposicaot_link" />
-                            </input-component>
                             <input-component titulo="Vídeo exposição prática link">
                                 <input type="text" class="form-control" v-model="form.video_exposicaop_link" />
+                            </input-component>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input-component titulo="Vídeo exposição teórica link">
+                                <input type="text" class="form-control" v-model="form.video_exposicaot_link" />
                             </input-component>
                         </div>
                     </tab-content>
@@ -618,4 +633,44 @@ export default {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Altera a cor do ícone de alerta */
+.popup-custom .swal2-warning {
+    color: #f39c12;
+    /* Altere esta cor para a que você deseja */
+}
+
+/* Altera a cor e estilo do botão de confirmação */
+.btn-confirm {
+    background-color: #28a745;
+    /* Cor verde */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-confirm:hover {
+    background-color: #218838;
+    /* Cor verde escuro ao passar o mouse */
+}
+
+/* Altera a cor e estilo do botão de cancelamento */
+.btn-cancel {
+    background-color: #dc3545;
+    /* Cor vermelha */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    background-color: #c82333;
+    /* Cor vermelha escura ao passar o mouse */
+}
+</style>

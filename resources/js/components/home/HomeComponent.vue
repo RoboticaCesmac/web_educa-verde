@@ -31,10 +31,9 @@ export default {
 }
 
 .card-header {
-    background-color: #6C757D;
+    background-color: #3b934f;
     color: white;
     font-weight: bold;
-    border-bottom: none;
     text-align: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -44,6 +43,7 @@ export default {
     font-size: 16px;
     color: #6c757d;
     text-align: center;
+    padding: 20px;
 }
 
 p {
@@ -52,5 +52,10 @@ p {
 
 .shadow-sm {
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    color: #3b934f; 
+    font-weight: 500;
 }
 </style>
